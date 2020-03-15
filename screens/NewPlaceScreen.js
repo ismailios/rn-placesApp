@@ -2,19 +2,26 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { TextInput, ScrollView } from "react-native-gesture-handler";
 import Colors from "../constants/Colors";
+import { useDispatch } from "react-redux";
+import * as placesActions from "../store/placesActions";
 
-const NewPlaceScreen = () => {
+const NewPlaceScreen = props => {
   const [textValue, setTextValue] = useState("");
+  const dispatch = useDispatch();
 
   const textChangeHandler = text => {
     setTextValue(text);
   };
 
-  const saveTextHandler = () => {};
+  const saveTextHandler = () => {
+    dispatch(placesActions.addPlace(textValue));
+    props.navigation.goBack();
+  };
 
   return (
     <ScrollView>
       <View style={styles.form}>
+        <Text>Title : </Text>
         <TextInput
           style={styles.inputStyle}
           value={textValue}
@@ -41,7 +48,7 @@ const styles = StyleSheet.create({
     margin: 30
   },
   inputStyle: {
-    marginBottom: 10,
+    marginVertical: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderBottomColor: "#333",
