@@ -1,8 +1,8 @@
 export const ADD_PLACE = "ADD_PLACE";
 
-export const addPlace = title => {
+export const addPlace = (title, imageUri) => {
   return {
     type: ADD_PLACE,
-    placeDate: { title: title }
+    placeData: { title: title, imageUri: imageUri }
   };
 };
