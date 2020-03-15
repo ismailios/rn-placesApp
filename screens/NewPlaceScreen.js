@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
-import { TextInput, ScrollView } from "react-native-gesture-handler";
+import { TextInput, ScrollView } from "react-native";
 import Colors from "../constants/Colors";
 import { useDispatch } from "react-redux";
 import * as placesActions from "../store/placesActions";
+import ImagePicker from "../components/ImagePicker";
 
 const NewPlaceScreen = props => {
   const [textValue, setTextValue] = useState("");
@@ -27,6 +28,7 @@ const NewPlaceScreen = props => {
           value={textValue}
           onChangeText={textChangeHandler}
         />
+        <ImagePicker />
         <Button
           title="Add Place"
           color={Colors.primary}
