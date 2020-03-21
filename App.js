@@ -9,6 +9,17 @@ import placesReducer from "./store/placesReducer";
 
 import PlacesNavigator from "./navigation/PlacesNavigator";
 
+import { init } from "./helpers/db";
+
+init()
+  .then(() => {
+    console.log("initialized db");
+  })
+  .catch(err => {
+    console.log("db Failled");
+    console.log(err);
+  });
+
 export default function App() {
   const rootReducer = combineReducers({
     places: placesReducer

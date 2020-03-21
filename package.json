@@ -10,6 +10,10 @@
   "dependencies": {
     "@expo/vector-icons": "^10.0.6",
     "expo": "^34.0.0",
+    "expo-file-system": "~6.0.0",
+    "expo-image-picker": "~6.0.0",
+    "expo-permissions": "~6.0.0",
+    "expo-sqlite": "^6.0.0",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-34.0.0.tar.gz",
@@ -22,10 +26,7 @@
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0",
-    "expo-image-picker": "~6.0.0",
-    "expo-permissions": "~6.0.0",
-    "expo-file-system": "~6.0.0"
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@types/react-native": "^0.61.22",
