@@ -5,6 +5,7 @@ import Colors from "../constants/Colors";
 import { useDispatch } from "react-redux";
 import * as placesActions from "../store/placesActions";
 import ImagePicker from "../components/ImagePicker";
+import LocationPicker from "../components/LocationPicker";
 
 const NewPlaceScreen = props => {
   const [textValue, setTextValue] = useState("");
@@ -34,6 +35,7 @@ const NewPlaceScreen = props => {
           onChangeText={textChangeHandler}
         />
         <ImagePicker onTakenImage={imageTakenHandler} />
+        <LocationPicker />
         <Button
           title="Add Place"
           color={Colors.primary}
