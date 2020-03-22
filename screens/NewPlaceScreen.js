@@ -35,7 +35,7 @@ const NewPlaceScreen = props => {
           onChangeText={textChangeHandler}
         />
         <ImagePicker onTakenImage={imageTakenHandler} />
-        <LocationPicker />
+        <LocationPicker navigation={props.navigation} />
         <Button
           title="Add Place"
           color={Colors.primary}

@@ -27,7 +27,8 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "expo-location": "~6.0.0"
+    "expo-location": "~6.0.0",
+    "react-native-maps": "~0.24.0"
   },
   "devDependencies": {
     "@types/react-native": "^0.61.22",
