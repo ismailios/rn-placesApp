@@ -14,7 +14,6 @@ const MapScreen = props => {
   };
 
   const selectedHandler = event => {
-    console.log(event);
     setSelectedLocation({
       lat: event.nativeEvent.coordinate.latitude,
       lng: event.nativeEvent.coordinate.longitude
@@ -31,11 +30,10 @@ const MapScreen = props => {
   }
 
   const saveEventHandler = useCallback(() => {
-    console.log(selectedLocation);
     if (!selectedLocation) {
       return;
     }
-    props.navigation.navigate("NewPlace");
+    props.navigation.navigate("NewPlace", { pickedLocation: selectedLocation });
   }, [selectedLocation]);
 
   useEffect(() => {

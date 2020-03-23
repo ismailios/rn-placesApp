@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { TextInput, ScrollView } from "react-native";
 import Colors from "../constants/Colors";
@@ -10,6 +10,7 @@ import LocationPicker from "../components/LocationPicker";
 const NewPlaceScreen = props => {
   const [textValue, setTextValue] = useState("");
   const [selectedImage, setSelectedImage] = useState();
+  const [selectedLocation, setSelectedLocation] = useState();
   const dispatch = useDispatch();
 
   const textChangeHandler = text => {
@@ -17,13 +18,22 @@ const NewPlaceScreen = props => {
   };
 
   const saveTextHandler = () => {
-    dispatch(placesActions.addPlace(textValue, selectedImage));
+    dispatch(
+      placesActions.addPlace(textValue, selectedImage, selectedLocation)
+    );
     props.navigation.goBack();
   };
 
   const imageTakenHandler = imagePath => {
     setSelectedImage(imagePath);
   };
+
+  const onLocationPickedHandler = useCallback(
+    location => {
+      setSelectedLocation(location);
+    },
+    [location]
+  );
 
   return (
     <ScrollView>
@@ -35,7 +45,10 @@ const NewPlaceScreen = props => {
           onChangeText={textChangeHandler}
         />
         <ImagePicker onTakenImage={imageTakenHandler} />
-        <LocationPicker navigation={props.navigation} />
+        <LocationPicker
+          navigation={props.navigation}
+          onLocationPicked={onLocationPickedHandler}
+        />
         <Button
           title="Add Place"
           color={Colors.primary}
