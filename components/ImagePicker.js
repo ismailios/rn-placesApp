@@ -1,47 +1,46 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Button, Text, Image, Alert } from "react-native";
-import * as ImagePicker from "expo-image-picker";
-import * as Permissions from "expo-permissions";
-import Colors from "../constants/Colors";
+import React, { useState } from 'react';
+import { View, Button, Image, Text, StyleSheet, Alert } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+
+import Colors from '../constants/Colors';
 
 const ImgPicker = props => {
   const [pickedImage, setPickedImage] = useState();
-  const verifyPermission = async () => {
-    const result = await Permissions.askAsync(
-      Permissions.CAMERA_ROLL,
-      Permissions.CAMERA
-    );
 
-    if (result.status !== "granted") {
-      Alert.alert("Permissions !!", "To use this app u must accept ...", [
-        { text: "okey" }
-      ]);
-
+  const verifyPermissions = async () => {
+    const result = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (result.status !== 'granted') {
+      Alert.alert(
+        'Insufficient permissions!',
+        'You need to grant camera permissions to use this app.',
+        [{ text: 'Okay' }]
+      );
       return false;
     }
     return true;
   };
 
   const takeImageHandler = async () => {
-    const hasPermission = await verifyPermission();
+    const hasPermission = await verifyPermissions();
     if (!hasPermission) {
       return;
     }
     const image = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
-      quality: 0.5,
-      aspect: 16.8
+      aspect: [16, 9],
+      quality: 0.5
     });
 
-    props.onTakenImage(image.uri);
     setPickedImage(image.uri);
+    props.onImageTaken(image.uri);
   };
 
   return (
     <View style={styles.imagePicker}>
       <View style={styles.imagePreview}>
         {!pickedImage ? (
-          <Text>No Image picked Yet ...</Text>
+          <Text>No image picked yet.</Text>
         ) : (
           <Image style={styles.image} source={{ uri: pickedImage }} />
         )}
@@ -56,19 +55,22 @@ const ImgPicker = props => {
 };
 
 const styles = StyleSheet.create({
-  imagePicker: { alignItems: "center" },
+  imagePicker: {
+    alignItems: 'center',
+    marginBottom: 15
+  },
   imagePreview: {
-    width: "100%",
-    height: 300,
-    margin: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "#CCC",
+    width: '100%',
+    height: 200,
+    marginBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#ccc',
     borderWidth: 1
   },
   image: {
-    width: "100%",
-    height: "100%"
+    width: '100%',
+    height: '100%'
   }
 });
 

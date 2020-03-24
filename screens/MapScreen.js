@@ -1,7 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, Text, TouchableOpacity, Platform } from "react-native";
-import MapView, { Marker } from "react-native-maps";
-import Colors from "../constants/Colors";
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Platform
+} from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+
+import Colors from '../constants/Colors';
 
 const MapScreen = props => {
   const [selectedLocation, setSelectedLocation] = useState();
@@ -9,16 +16,28 @@ const MapScreen = props => {
   const mapRegion = {
     latitude: 37.78,
     longitude: -122.43,
-    latitudeDelta: 0.0992,
+    latitudeDelta: 0.0922,
     longitudeDelta: 0.0421
   };
 
-  const selectedHandler = event => {
+  const selectLocationHandler = event => {
     setSelectedLocation({
       lat: event.nativeEvent.coordinate.latitude,
       lng: event.nativeEvent.coordinate.longitude
     });
   };
+
+  const savePickedLocationHandler = useCallback(() => {
+    if (!selectedLocation) {
+      // could show an alert!
+      return;
+    }
+    props.navigation.navigate('NewPlace', { pickedLocation: selectedLocation });
+  }, [selectedLocation]);
+
+  useEffect(() => {
+    props.navigation.setParams({ saveLocation: savePickedLocationHandler });
+  }, [savePickedLocationHandler]);
 
   let markerCoordinates;
 
@@ -29,33 +48,25 @@ const MapScreen = props => {
     };
   }
 
-  const saveEventHandler = useCallback(() => {
-    if (!selectedLocation) {
-      return;
-    }
-    props.navigation.navigate("NewPlace", { pickedLocation: selectedLocation });
-  }, [selectedLocation]);
-
-  useEffect(() => {
-    props.navigation.setParams({
-      savFn: saveEventHandler
-    });
-  }, [saveEventHandler]);
-
   return (
-    <MapView style={styles.map} region={mapRegion} onPress={selectedHandler}>
-      <Marker title="Picked Location" coordinate={markerCoordinates} />
+    <MapView
+      style={styles.map}
+      region={mapRegion}
+      onPress={selectLocationHandler}
+    >
+      {markerCoordinates && (
+        <Marker title="Picked Location" coordinate={markerCoordinates} />
+      )}
     </MapView>
   );
 };
 
 MapScreen.navigationOptions = navData => {
-  const savFn = navData.navigation.getParam("savFn");
+  const saveFn = navData.navigation.getParam('saveLocation');
   return {
-    headerTitle: "Map",
     headerRight: (
-      <TouchableOpacity style={styles.headerWrapper} onPress={savFn}>
-        <Text style={styles.headerText}>Save</Text>
+      <TouchableOpacity style={styles.headerButton} onPress={saveFn}>
+        <Text style={styles.headerButtonText}>Save</Text>
       </TouchableOpacity>
     )
   };
@@ -65,12 +76,12 @@ const styles = StyleSheet.create({
   map: {
     flex: 1
   },
-  headerWrapper: {
-    marginHorizontal: 16
+  headerButton: {
+    marginHorizontal: 20
   },
-  headerText: {
-    fontSize: 18,
-    color: Platform.OS === "android" ? Colors.primary : null
+  headerButtonText: {
+    fontSize: 16,
+    color: Platform.OS === 'android' ? 'white' : Colors.primary
   }
 });
 
